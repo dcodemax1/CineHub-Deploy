@@ -33,7 +33,6 @@ export const AppProvider = ({ children }) => {
         toast.error("You are not authorized to access admin dashboard");
       }
     } catch (error) {
-      console.error(error);
     }
   };
 
@@ -46,7 +45,6 @@ export const AppProvider = ({ children }) => {
         toast.error(data.message);
       }
     } catch (error) {
-      console.error(error);
     }
   };
 
@@ -63,7 +61,6 @@ export const AppProvider = ({ children }) => {
         toast.error(data.message);
       }
     } catch (error) {
-      console.error(error);
     }
   };
 

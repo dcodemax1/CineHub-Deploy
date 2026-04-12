@@ -20,7 +20,6 @@ export const getUserBookings = async (req, res) => {
       .sort({ createdAt: -1 });
     res.json({ success: true, bookings });
   } catch (error) {
-    console.error(error.message);
     res.json({ success: false, message: error.message });
   }
 };
@@ -55,7 +54,6 @@ export const updateFavorite = async (req, res) => {
 
     res.json({ success: true, message: "Favorite movies updated" });
   } catch (error) {
-    console.error(error.message);
     res.json({ success: false, message: error.message });
   }
 };
@@ -76,7 +74,6 @@ export const getFavorites = async (req, res) => {
 
     res.json({ success: true, movies });
   } catch (error) {
-    console.error(error.message);
     res.json({ success: false, message: error.message });
   }
 };

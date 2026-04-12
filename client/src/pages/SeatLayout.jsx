@@ -34,7 +34,6 @@ const SeatLayout = () => {
         setShow(data);
       }
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -87,7 +86,6 @@ const SeatLayout = () => {
         toast.error(data.message);
       }
     } catch (error) {
-      console.log(error);
     }
   };
 

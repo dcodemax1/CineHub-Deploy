@@ -20,7 +20,6 @@ const ListBookings = () => {
             });
             setBookings(data.bookings)
         } catch (error) {
-          console.error(error);
         }
         setIsLoading(false)
     };

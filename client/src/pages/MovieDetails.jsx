@@ -25,7 +25,6 @@ const MovieDetails = () => {
         setShow(data)
       }
     } catch (error) {
-      console.log(error)
     }
   }
 
@@ -40,7 +39,6 @@ const MovieDetails = () => {
         toast.success(data.message)
       }
     } catch (error) {
-      console.log(error)
     }
   }
   

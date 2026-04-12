@@ -28,7 +28,6 @@ const AddShows = () => {
                     setNowPlayingMovies(data.movies)
                 }
         } catch (error) {
-            console.error('Error fetching movies:', error)
         }
     };
 
@@ -87,7 +86,6 @@ const AddShows = () => {
                 toast.error(data.message)
             }
         } catch (error) {
-            console.error("Submission error:", error);
             toast.error('An error occurred. Please try again.')
         }
         setAddingShow(false)
