@@ -3,6 +3,53 @@ import Movie from "../models/Movie.js";
 import Show from "../models/Show.js";
 import { inngest } from "../inngest/index.js";
 
+// Cache for TMDB fallback movies
+let tmdbFallbackCache = null;
+let cacheTimestamp = null;
+const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
+
+// Function to fetch fallback movies from TMDB API
+const getTmdbFallbackMovies = async () => {
+  try {
+    // Return cached data if not expired
+    if (tmdbFallbackCache && cacheTimestamp && (Date.now() - cacheTimestamp) < CACHE_DURATION) {
+      return tmdbFallbackCache;
+    }
+
+    const { data } = await axios.get('https://api.themoviedb.org/3/movie/now_playing', {
+      headers: { Authorization: `Bearer ${process.env.TMDB_API_KEY}` },
+      timeout: 5000
+    });
+
+    // Get first 2 movies with valid poster images
+    const validMovies = data.results?.filter(movie => 
+      movie.poster_path && movie.backdrop_path
+    ).slice(0, 2) || [];
+
+    const fallbackMovies = validMovies.map((movie) => ({
+      _id: `tmdb_fallback_${movie.id}`,
+      title: movie.title,
+      overview: movie.overview,
+      poster_path: movie.poster_path,
+      backdrop_path: movie.backdrop_path,
+      release_date: movie.release_date || "",
+      original_language: movie.original_language || "en",
+      tagline: "",
+      genres: movie.genres || [],
+      casts: [],
+      vote_average: movie.vote_average || 0,
+      runtime: 0
+    }));
+
+    // Cache the result
+    tmdbFallbackCache = fallbackMovies;
+    cacheTimestamp = Date.now();
+    return fallbackMovies;
+  } catch (error) {
+    return [];
+  }
+};
+
 // API to get now playing movies from TMDB API
 export const getNowPlayingMovies = async (req, res)=>{
     try {
@@ -95,8 +142,21 @@ export const getShows = async (req, res) =>{
 
         // filter unique shows
         const uniqueShows = new Set(shows.map(show => show.movie))
+        const moviesArray = Array.from(uniqueShows);
 
-        res.json({success: true, shows: Array.from(uniqueShows)})
+        // Ensure minimum 2 movies by fetching from TMDB if needed
+        if (moviesArray.length < 2) {
+            const neededCount = 2 - moviesArray.length;
+            const tmdbMovies = await getTmdbFallbackMovies();
+            
+            // Avoid duplicates
+            const existingIds = new Set(moviesArray.map(m => m._id));
+            const additionalMovies = tmdbMovies.filter(m => !existingIds.has(m._id)).slice(0, neededCount);
+            
+            moviesArray.push(...additionalMovies);
+        }
+
+        res.json({success: true, shows: moviesArray})
     } catch (error) {
         console.error(error);
         res.json({ success: false, message: error.message });

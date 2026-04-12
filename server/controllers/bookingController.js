@@ -9,9 +9,9 @@ const checkSeatsAvailability = async (showId, selectedSeats) => {
   try {
     const showData = await Show.findById(showId);
     if (!showData) return false;
-
+              
     const occupiedSeats = showData.occupiedSeats;
-
+              
     const isAnySeatTaken = selectedSeats.some((seat) => occupiedSeats[seat]);
 
     return !isAnySeatTaken;
@@ -28,13 +28,13 @@ export const createBooking = async (req, res) => {
     const { origin } = req.headers;
 
     console.log(
-      "🔍 Booking Controller - Authorization header:",
+      " Booking Controller - Authorization header:",
       req.headers.authorization?.substring(0, 50) + "...",
     );
-    console.log("🔍 Booking Controller - userId from token:", userId);
+    console.log(" Booking Controller - userId from token:", userId);
 
     if (!userId) {
-      console.log("❌ Booking Controller - No userId found");
+      console.log(" Booking Controller - No userId found");
       return res.json({ success: false, message: "No authorization token" });
     }
 
@@ -47,7 +47,7 @@ export const createBooking = async (req, res) => {
         message: "Selected Seats are not available.",
       });
     }
-
+       
     // Get the show details
     const showData = await Show.findById(showId).populate("movie");
 
