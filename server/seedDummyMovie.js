@@ -111,8 +111,7 @@ const addDummyMovie = async () => {
       await Show.insertMany(showsToCreate);
     } else {
     }
-  } catch (error) {
-  }
+  } catch (error) {}
 };
 
 const run = async () => {

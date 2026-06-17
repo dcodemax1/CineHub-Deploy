@@ -33,8 +33,7 @@ const SeatLayout = () => {
       if (data.success) {
         setShow(data);
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const handleSeatClick = (seatId) => {
@@ -85,8 +84,7 @@ const SeatLayout = () => {
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const bookTickets = async () => {

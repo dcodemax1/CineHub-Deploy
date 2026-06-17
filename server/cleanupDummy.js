@@ -15,8 +15,7 @@ const cleanup = async () => {
   try {
     await Movie.deleteOne({ _id: "dummy_movie_1" });
     await Show.deleteMany({ movie: "dummy_movie_1" });
-  } catch (error) {
-  }
+  } catch (error) {}
 };
 
 const run = async () => {

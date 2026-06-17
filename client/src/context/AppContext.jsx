@@ -32,8 +32,7 @@ export const AppProvider = ({ children }) => {
         navigate("/");
         toast.error("You are not authorized to access admin dashboard");
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const fetchShows = async () => {
@@ -44,8 +43,7 @@ export const AppProvider = ({ children }) => {
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const fetchFavoriteMovies = async () => {
@@ -60,8 +58,7 @@ export const AppProvider = ({ children }) => {
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {

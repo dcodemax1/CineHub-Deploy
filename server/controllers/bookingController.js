@@ -9,9 +9,9 @@ const checkSeatsAvailability = async (showId, selectedSeats) => {
   try {
     const showData = await Show.findById(showId);
     if (!showData) return false;
-              
+
     const occupiedSeats = showData.occupiedSeats;
-              
+
     const isAnySeatTaken = selectedSeats.some((seat) => occupiedSeats[seat]);
 
     return !isAnySeatTaken;
@@ -39,7 +39,7 @@ export const createBooking = async (req, res) => {
         message: "Selected Seats are not available.",
       });
     }
-       
+
     // Get the show details
     const showData = await Show.findById(showId).populate("movie");
 
