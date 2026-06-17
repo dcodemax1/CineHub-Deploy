@@ -65,13 +65,19 @@ export const getNowPlayingMovies = async (req, res) => {
       "https://api.themoviedb.org/3/movie/now_playing",
       {
         headers: { Authorization: `Bearer ${process.env.TMDB_API_KEY}` },
+        timeout: 8000,
       },
     );
 
     const movies = data.results;
     res.json({ success: true, movies: movies });
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    // Return fallback movies on error
+    const fallbackMovies = await getTmdbFallbackMovies();
+    if (fallbackMovies.length > 0) {
+      return res.json({ success: true, movies: fallbackMovies });
+    }
+    res.json({ success: false, message: "Failed to fetch movies" });
   }
 };
 

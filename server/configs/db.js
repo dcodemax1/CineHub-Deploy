@@ -9,8 +9,11 @@ const connectDB = async () => {
       console.log("Database connection error:", error.message);
     });
     await mongoose.connect(`${process.env.MONGODB_URI}/quickshow`, {
-      serverSelectionTimeoutMS: 5000,
-      connectTimeoutMS: 10000,
+      serverSelectionTimeoutMS: 30000,
+      connectTimeoutMS: 30000,
+      socketTimeoutMS: 45000,
+      maxPoolSize: 10,
+      retryWrites: true,
     });
   } catch (error) {
     console.log("Database connection failed:", error.message);
